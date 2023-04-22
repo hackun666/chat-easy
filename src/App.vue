@@ -426,8 +426,11 @@ body {
 #page-header .upgrade-btn .upgrade-btn-ico {
   align-items: center;
   display: flex;
+  justify-content: center;
 }
-
+#page-header .upgrade-btn .upgrade-btn-ico img {
+  width: 20px;
+}
 #page-header .upgrade-btn .upgrade-btn-text {
   margin-left: 5px;
 }

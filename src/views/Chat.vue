@@ -27,11 +27,15 @@
       </div>
       <div class="header-right">
         <div class="button upgrade-btn" @click="swichTab(4)">
+          <div class="upgrade-btn-ico">
+            <img :src="require('@/assets/vip.svg')" />
+          </div>
           <div class="upgrade-btn-text">购买Key</div>
         </div>
         <div class="header-user-wrapper">
           <div class="header-user-btn" @click="swichTab(5)">
-            <div class="header-user-name">我的</div>
+                <img :src="require('@/assets/user.svg')" alt="" />
+            <div class="header-user-name">账户</div>
           </div>
         </div>
       </div>
@@ -301,7 +305,10 @@
         <div class="faq-item">
           <h3>如何购买Key？</h3>
           <div>
-            目前仅支持微信或支付宝付款码，付款时请备注您的邮箱，支付成功1小时内会将Key发送到您的邮箱。
+            目前仅支持支付宝付款码，付款时请备注您的邮箱，支付成功1小时内会将Key发送到您的邮箱。<span @click="show_qr = true">显示收款码</span>。
+          </div>
+          <div class="qr_box" v-if="show_qr">
+            <img :src="require('@/assets/alipay.jpg')" width="100%">
           </div>
         </div>
       </div>
@@ -399,6 +406,7 @@ export default {
       is_ask: false,
       api_key: "",
       key_info: null,
+      show_qr: false,
     };
   },
   computed: {},
@@ -653,5 +661,13 @@ export default {
   font-size: 16px;
   color: #10a37f;
   border-radius: 8px;
+}
+.qr_box {
+  width: 240px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #10a37f;
+  border-radius: 8px;
+  margin: 20px auto;
 }
 </style>
