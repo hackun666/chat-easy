@@ -305,7 +305,7 @@
         <div class="faq-item">
           <h3>如何购买Key？</h3>
           <div>
-            目前仅支持支付宝付款码，付款时请备注您的邮箱，支付成功1小时内会将Key发送到您的邮箱。<span @click="show_qr = true">显示收款码</span>。
+            目前仅支持支付宝付款码，付款时请备注您的邮箱，支付成功1小时内会将Key发送到您的邮箱。<span class="show_qr" @click="show_qr = true">👉显示收款码</span>。
           </div>
           <div class="qr_box" v-if="show_qr">
             <img :src="require('@/assets/alipay.jpg')" width="100%">
@@ -669,5 +669,10 @@ export default {
   border: 1px solid #10a37f;
   border-radius: 8px;
   margin: 20px auto;
+}
+.show_qr {
+  font-weight: bold;
+  cursor: pointer;
+  color: #10a37f;
 }
 </style>
