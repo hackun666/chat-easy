@@ -34,7 +34,7 @@
         </div>
         <div class="header-user-wrapper">
           <div class="header-user-btn" @click="swichTab(5)">
-                <img :src="require('@/assets/user.svg')" alt="" />
+            <img :src="require('@/assets/user.svg')" alt="" />
             <div class="header-user-name">账户</div>
           </div>
         </div>
@@ -270,22 +270,6 @@
 
     <div class="buy-wrapper" v-if="now_tab == 4">
       <h1 class="upgrade-title">购买Key</h1>
-      <!-- <div class="buy-price-wrapper">
-        <div class="buy-price-list">
-          <div class="buy-item" v-for="(item, index) in price_arr" :key="index">
-            <div class="buy-price-header">
-              <div class="buy-total">
-                {{ item.num }}<span class="product-name">AI币</span>
-              </div>
-            </div>
-            <div class="buy-price-footer">
-              <button class="button" @click="createOrder(item)">
-                {{ item.price }}<span>元</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> -->
       <div class="buy-faqs">
         <div class="faq-item">
           <h3>Key的价格？</h3>
@@ -305,10 +289,14 @@
         <div class="faq-item">
           <h3>如何购买Key？</h3>
           <div>
-            目前仅支持支付宝付款码，付款时请备注您的邮箱，支付成功1小时内会将Key发送到您的邮箱。<span class="show_qr" @click="show_qr = true">👉显示收款码</span>。
+            目前仅支持支付宝付款码，付款时请备注您的邮箱，支付成功1小时内会将Key发送到您的邮箱。<span
+              class="show_qr"
+              @click="show_qr = true"
+              >👉显示收款码</span
+            >。
           </div>
           <div class="qr_box" v-if="show_qr">
-            <img :src="require('@/assets/alipay.jpg')" width="100%">
+            <img :src="require('@/assets/alipay.jpg')" width="100%" />
           </div>
         </div>
       </div>
@@ -317,7 +305,10 @@
     <div class="my-packages-wrapper" v-if="now_tab == 5">
       <div class="my-packages-container" v-if="key_info">
         <h1>我的余额</h1>
-        <p class="now_key">当前Key: {{ api_key }}</p>
+        <p class="now_key">
+          当前Key: {{ api_key }}
+          <span style="cursor: pointer" @click="removeKey">更换</span>
+        </p>
         <div class="my-balance-container">
           <div class="my-balance">{{ key_info.num }}<span>AI币</span></div>
         </div>
@@ -382,24 +373,6 @@ export default {
       draw_result: "",
       draw_sizes: ["256x256", "512x512", "1024x1024"],
       draw_size: "256x256",
-      price_arr: [
-        {
-          num: 10,
-          price: 1,
-        },
-        {
-          num: 120,
-          price: 10,
-        },
-        {
-          num: 300,
-          price: 20,
-        },
-        {
-          num: 600,
-          price: 30,
-        },
-      ],
       pending: false,
       write_done: false,
       cash: 0,
@@ -416,6 +389,12 @@ export default {
     this.checkKey();
   },
   methods: {
+    removeKey() {
+      this.api_key = "";
+      this.key_info = null;
+      localStorage.removeItem("api_key");
+      this.checkKey();
+    },
     async checkKey() {
       let res = await this.$http.post("/app/openai/checkkey", {
         api_key: this.api_key,
@@ -615,16 +594,23 @@ export default {
         this.$weui.alert("请填写要绘画的内容");
         return;
       }
-
-      let res = await this.$http.post("/app/openai/draw", {
-        prompt: that.draw_title,
-        size: that.draw_size,
+      let res = await this.$http.post("/app/openai/checkkey", {
         api_key: that.api_key,
       });
       if (res.errcode == 0) {
-        that.draw_result = res.message;
-        that.is_draw = false;
-        that.checkKey();
+        that.is_draw = true;
+        let res = await this.$http.post("/app/openai/draw", {
+          prompt: that.draw_title,
+          size: that.draw_size,
+          api_key: that.api_key,
+        });
+        if (res.errcode == 0) {
+          that.draw_result = res.message;
+          that.is_draw = false;
+          that.checkKey();
+        } else {
+          this.$weui.alert(res.errmsg);
+        }
       } else {
         this.$weui.alert(res.errmsg);
       }

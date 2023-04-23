@@ -5,7 +5,7 @@ import qs from 'qs'
 // 构建请求对象
 const http = axios.create({
   baseURL: "/",
-  timeout: 1000 * 5,
+  timeout: 20000 * 5,
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
   },
