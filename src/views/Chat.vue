@@ -250,7 +250,6 @@
 
           <div class="draw-info">
             <button class="button" @click="draw_result = ''">返回</button>
-            <button class="button recreate" disabled="">重绘</button>
             <a
               class="button download-btn"
               :href="draw_result"
