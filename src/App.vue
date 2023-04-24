@@ -413,13 +413,12 @@ body {
 }
 
 #page-header .upgrade-btn {
-  width: 84px;
   height: 34px;
   background: #10a37f;
   border-radius: 6px;
   align-items: center;
   margin-right: 12px;
-  padding: 0;
+  padding: 0 10px;
   font-size: 14px;
 }
 

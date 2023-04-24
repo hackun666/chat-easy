@@ -1,7 +1,11 @@
 <template>
   <div class="qyai-page">
     <div id="page-header" class="">
-      <img class="header-logo" :src="require('@/assets/logo.svg')" />
+      <img
+        class="header-logo"
+        :src="require('@/assets/logo.svg')"
+        @click="resetAll"
+      />
       <div class="header-center">
         <div class="switch-button">
           <div
@@ -21,7 +25,7 @@
             @click="swichTab(3)"
           >
             绘画
-            <!-- <span>New</span> -->
+            <span>New</span>
           </div>
         </div>
       </div>
@@ -360,8 +364,8 @@ export default {
       write_result: "",
       write_result_html: "",
       write_demos: [
-        "写一篇关于全球气候变化的评论文章。",
-        "写一份反诈工作汇报文案。",
+        "写一篇关于成长的作文。",
+        "写一份运营工作汇报文案。",
         "写一篇关于诚信的短文。",
       ],
       write_title: "",
@@ -388,6 +392,10 @@ export default {
     this.checkKey();
   },
   methods: {
+    resetAll() {
+      this.prompt = "";
+      this.chat_list = [];
+    },
     removeKey() {
       this.api_key = "";
       this.key_info = null;
@@ -402,7 +410,7 @@ export default {
         this.key_info = res.data;
         localStorage.setItem("api_key", this.api_key);
       } else {
-        this.$weui.alert("Key验证失败");
+        this.$weui.alert(res.errmsg);
         this.swichTab(5);
         return;
       }
