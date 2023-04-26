@@ -292,15 +292,21 @@
         <div class="faq-item">
           <h3>如何购买Key？</h3>
           <div>
-            目前仅支持支付宝付款码，付款时请备注您的邮箱，支付成功1小时内会将Key发送到您的邮箱。<span
+            目前仅支持微信或支付宝付款码，付款时请<strong>备注您的邮箱</strong>，支付成功1小时内会将Key发送到您的邮箱。<span
               class="show_qr"
               @click="show_qr = true"
               >👉显示收款码</span
             >。
           </div>
           <div class="qr_box" v-if="show_qr">
+            <img :src="require('@/assets/wepay.jpg')" width="100%" />
             <img :src="require('@/assets/alipay.jpg')" width="100%" />
           </div>
+        </div>
+        
+        <div class="faq-item">
+          <h3>私人定制服务</h3>
+          <div></div>
         </div>
       </div>
     </div>
@@ -656,16 +662,31 @@ export default {
   border-radius: 8px;
 }
 .qr_box {
-  width: 240px;
   padding: 10px;
-  background-color: #fff;
-  border: 1px solid #10a37f;
-  border-radius: 8px;
   margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 240px;
+    margin: 0 10px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #10a37f;
+    border-radius: 8px;
+  }
 }
 .show_qr {
   font-weight: bold;
   cursor: pointer;
   color: #10a37f;
+}
+
+@media screen and (max-width: 700px) {
+  .qr_box {
+    img {
+      width: 150px;
+    }
+  }
 }
 </style>
