@@ -236,6 +236,12 @@
           <div class="footer-submit">
             <button class="button size-l" @click="draw">提交</button>
           </div>
+
+          
+          <div class="chat-about">
+            <span>每次绘画消耗</span>
+            <div @click="swichTab(4)">2个AI币</div>
+          </div>
         </div>
 
         <div class="draw-result" v-if="is_draw || draw_result.length > 0">
@@ -276,7 +282,7 @@
       <div class="buy-faqs">
         <div class="faq-item">
           <h3>Key的价格？</h3>
-          <div>定价：10元/个，每个Key包含1000个AI币</div>
+          <div>定价：10元/个，每个Key包含1000个AI币<span style="color:red">(注：从2023年5月1号开始变为500个，已购买的不影响)</span></div>
         </div>
         <div class="faq-item">
           <h3>AI币是如何抵扣用量的？</h3>
@@ -306,7 +312,7 @@
         
         <div class="faq-item">
           <h3>私人定制服务</h3>
-          <div></div>
+          <div>可帮您搭建和本站一样的网站，也可以按需定制开发，有意向可以<a style="color:#10a37f" href="https://chatbot.weixin.qq.com/webapp/dIYgk1431XFZISBOGaffnlvNSbcQQR?robotName=ChatGPT" target="_blank"><b>联系客服</b></a>。(注：本站后端服务仅限PHP语言)</div>
         </div>
       </div>
     </div>
@@ -335,7 +341,15 @@
             <div class="upgrade-btn-text">保存</div>
           </div>
         </div>
+        <div class="chat-about">
+          <span>还没有key?</span>
+          <div @click="swichTab(4)">点此获取</div>
+        </div>
       </div>
+    </div>
+    <div class="kf_ico" @click="goKf" v-if="!api_key">
+      <img :src="require('@/assets/kf.svg')" alt="">
+      <p>客服</p>
     </div>
   </div>
 </template>
@@ -398,6 +412,9 @@ export default {
     this.checkKey();
   },
   methods: {
+    goKf() {
+      window.open('https://chatbot.weixin.qq.com/webapp/dIYgk1431XFZISBOGaffnlvNSbcQQR?robotName=ChatGPT');  
+    },
     resetAll() {
       this.prompt = "";
       this.chat_list = [];
@@ -416,6 +433,8 @@ export default {
         this.key_info = res.data;
         localStorage.setItem("api_key", this.api_key);
       } else {
+        this.api_key = "";
+        localStorage.removeItem("api_key");
         this.$weui.alert(res.errmsg);
         this.swichTab(5);
         return;
@@ -687,6 +706,27 @@ export default {
     img {
       width: 150px;
     }
+  }
+}
+.kf_ico {
+  position: fixed;
+  bottom: 10vh;
+  right: 10px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 12px;
+  color: #fff;
+  background-color: #10a37f;
+  border-radius: 8px;
+  z-index: 11;
+  cursor: pointer;
+  img {
+    width: 30px;
+    height: 30px;
   }
 }
 </style>

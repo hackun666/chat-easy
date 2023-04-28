@@ -991,7 +991,7 @@ body {
   margin-left: 2px;
 }
 
-.chat-body .chat-about {
+.chat-about {
   align-items: center;
   padding: 30px 6px 0;
   font-size: 15px;
@@ -1002,11 +1002,11 @@ body {
   margin-right: 10px;
 }
 
-.chat-body .chat-about span {
+.chat-about span {
   border-bottom: 1px solid transparent;
 }
 
-.chat-body .chat-about div {
+.chat-about div {
   cursor: pointer;
   border-bottom: 1px dotted #555;
   margin-left: 3px;
