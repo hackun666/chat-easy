@@ -140,13 +140,9 @@
         </div>
         <div class="box-write">
           <div class="write-input-container">
-            <div
-              placeholder="需要写点什么？请在此表达你的想法"
+            <input type="textarea" v-model="write_title" 
               class="write-input"
-              contenteditable="plaintext-only"
-            >
-              {{ write_title }}
-            </div>
+              placeholder="需要写点什么？请在此表达你的想法" />
             <div
               placeholder="想要AI如何优化，表达您的想法（可选）"
               class="write-input instruction-input"
@@ -191,13 +187,15 @@
                 class="operations_item copy"
                 data-clipboard-target="#write-result"
                 title="复制文本"
-                ><span>复制</span></a
+                >
+                <img :src="require('@/assets/copy.svg')" /><span>复制</span></a
               >
               <div
                 title="删除"
                 class="operations_item"
                 @click="write_result = ''"
               >
+                <img :src="require('@/assets/trash.svg')" />
                 <span>删除</span>
               </div>
             </div>
@@ -282,7 +280,7 @@
       <div class="buy-faqs">
         <div class="faq-item">
           <h3>Key的价格？</h3>
-          <div>定价：10元/个，每个Key包含1000个AI币<span style="color:red">(注：从2023年5月1号开始变为500个，已购买的不影响)</span></div>
+          <div>定价：10元/个，每个Key包含500个AI币 有效期为激活后3个月</div>
         </div>
         <div class="faq-item">
           <h3>AI币是如何抵扣用量的？</h3>
@@ -613,7 +611,6 @@ export default {
           eventSource.close();
           console.log(new Date().getTime(), "answer end");
           that.is_ask = false;
-          that.checkUser();
         });
         that.checkKey();
       } else {
