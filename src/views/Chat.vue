@@ -296,13 +296,10 @@
         <div class="faq-item">
           <h3>如何购买Key？</h3>
           <div>
-            目前仅支持微信或支付宝付款码，付款时请<strong>备注您的邮箱</strong>，支付成功1小时内会将Key发送到您的邮箱。<span
-              class="show_qr"
-              @click="show_qr = true"
-              >👉显示收款码</span
-            >。
+            目前仅支持微信或支付宝付款码，付款时请<strong>备注您的邮箱</strong>，支付成功1小时内会将Key发送到您的邮箱。
+            <!-- <span class="show_qr" @click="show_qr = true">👉显示收款码</span> -->
           </div>
-          <div class="qr_box" v-if="show_qr">
+          <div class="qr_box">
             <img :src="require('@/assets/wepay.jpg')" width="100%" />
             <img :src="require('@/assets/alipay.jpg')" width="100%" />
           </div>
@@ -595,6 +592,7 @@ export default {
               that.write_result += result.content;
 
               that.write_result_html = that.parseMarkdown(that.write_result);
+              document.getElementById("write-wrapper").scrollTop = 100000;
             }
           } catch (error) {
             console.log(error);
