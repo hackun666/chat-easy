@@ -3285,6 +3285,10 @@ body {
   font-size: 15px;
   line-height: 1.5;
 }
+.buy-faqs .faq-item > div span {
+  font-weight: bold;
+  color: red;
+}
 
 .buy-invite {
   flex-direction: column;

@@ -140,9 +140,12 @@
         </div>
         <div class="box-write">
           <div class="write-input-container">
-            <input type="textarea" v-model="write_title" 
+            <input
+              type="textarea"
+              v-model="write_title"
               class="write-input"
-              placeholder="需要写点什么？请在此表达你的想法" />
+              placeholder="需要写点什么？请在此表达你的想法"
+            />
             <div
               placeholder="想要AI如何优化，表达您的想法（可选）"
               class="write-input instruction-input"
@@ -187,7 +190,7 @@
                 class="operations_item copy"
                 data-clipboard-target="#write-result"
                 title="复制文本"
-                >
+              >
                 <img :src="require('@/assets/copy.svg')" /><span>复制</span></a
               >
               <div
@@ -235,7 +238,6 @@
             <button class="button size-l" @click="draw">提交</button>
           </div>
 
-          
           <div class="chat-about">
             <span>每次绘画消耗</span>
             <div @click="swichTab(4)">2个AI币</div>
@@ -280,7 +282,11 @@
       <div class="buy-faqs">
         <div class="faq-item">
           <h3>Key的价格？</h3>
-          <div>定价：10元/个，每个Key包含500个AI币 有效期为激活后3个月</div>
+          <div>
+            定价：10元/个，每个Key包含<span>200个</span>AI币 有效期为激活后<span
+              >2个月</span
+            >
+          </div>
         </div>
         <div class="faq-item">
           <h3>AI币是如何抵扣用量的？</h3>
@@ -295,8 +301,19 @@
         </div>
         <div class="faq-item">
           <h3>如何购买Key？</h3>
+          <div style="margin-bottom: 10px">
+            <p>
+              在线购买：付款后自动发货
+              <a href="https://shop.51fkba.com/links/02F3B2DE" target="_blank"
+                >👉<strong style="color: red">点击购买</strong></a
+              >
+            </p>
+          </div>
           <div>
-            目前仅支持微信或支付宝付款码，付款时请<strong>备注您的邮箱</strong>，支付成功1小时内会将Key发送到您的邮箱。
+            <p>
+              收款码方式：目前支持微信或支付宝付款码，付款时请<strong>备注您的邮箱</strong>，支付成功1小时内会将Key发送到您的邮箱。
+            </p>
+
             <!-- <span class="show_qr" @click="show_qr = true">👉显示收款码</span> -->
           </div>
           <div class="qr_box">
@@ -304,10 +321,18 @@
             <img :src="require('@/assets/alipay.jpg')" width="100%" />
           </div>
         </div>
-        
+
         <div class="faq-item">
           <h3>私人定制服务</h3>
-          <div>可帮您搭建和本站一样的网站，也可以按需定制开发，有意向可以<a style="color:#10a37f" href="https://chatbot.weixin.qq.com/webapp/dIYgk1431XFZISBOGaffnlvNSbcQQR?robotName=ChatGPT" target="_blank"><b>联系客服</b></a>。(注：本站后端服务仅限PHP语言)</div>
+          <div>
+            可帮您搭建和本站一样的网站，也可以按需定制开发，有意向可以<a
+              style="color: #10a37f"
+              href="https://chatbot.weixin.qq.com/webapp/dIYgk1431XFZISBOGaffnlvNSbcQQR?robotName=ChatGPT"
+              target="_blank"
+              ><b>联系客服</b></a
+            >
+            或加Q 290805404。(注：本站后端服务仅限PHP语言)
+          </div>
         </div>
       </div>
     </div>
@@ -343,7 +368,7 @@
       </div>
     </div>
     <div class="kf_ico" @click="goKf" v-if="!api_key">
-      <img :src="require('@/assets/kf.svg')" alt="">
+      <img :src="require('@/assets/kf.svg')" alt="" />
       <p>客服</p>
     </div>
   </div>
@@ -408,7 +433,9 @@ export default {
   },
   methods: {
     goKf() {
-      window.open('https://chatbot.weixin.qq.com/webapp/dIYgk1431XFZISBOGaffnlvNSbcQQR?robotName=ChatGPT');  
+      window.open(
+        "https://chatbot.weixin.qq.com/webapp/dIYgk1431XFZISBOGaffnlvNSbcQQR?robotName=ChatGPT"
+      );
     },
     resetAll() {
       this.prompt = "";
