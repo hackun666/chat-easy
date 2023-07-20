@@ -99,7 +99,7 @@
           </div>
           <div class="chat-about">
             <span>每次提问消耗</span>
-            <div @click="swichTab(4)">1个AI币</div>
+            <div @click="swichTab(4)">2个AI币</div>
           </div>
           <div class="chat-notice">
             <div>
@@ -174,7 +174,7 @@
             </ul>
             <div class="write-about">
               <span>每次创作消耗</span>
-              <div>1个AI币</div>
+              <div>2个AI币</div>
             </div>
           </div>
         </div>
@@ -240,7 +240,7 @@
 
           <div class="chat-about">
             <span>每次绘画消耗</span>
-            <div @click="swichTab(4)">2个AI币</div>
+            <div @click="swichTab(4)">5个AI币</div>
           </div>
         </div>
 
@@ -281,6 +281,12 @@
       <h1 class="upgrade-title">购买Key</h1>
       <div class="buy-faqs">
         <div class="faq-item">
+          <h3>更新提示</h3>
+          <div>
+            目前本站已使用最新的GPT-4接口，欢迎体验。
+          </div>
+        </div>
+        <div class="faq-item">
           <h3>Key的价格？</h3>
           <div>
             定价：10元/个，每个Key包含<span>200个</span>AI币 有效期为激活后<span
@@ -291,13 +297,13 @@
         <div class="faq-item">
           <h3>AI币是如何抵扣用量的？</h3>
           <div>
-            在使用服务时进行抵扣，一次AI问答 = 1个AI币，一次AI写作 =
-            1个AI币，一次AI绘画 = 2个AI币。
+            在使用服务时进行抵扣，一次AI问答 = 2个AI币，一次AI写作 =
+            2个AI币，一次AI绘画 = 5个AI币。
           </div>
         </div>
         <div class="faq-item">
           <h3>为何必须购买才能使用？</h3>
-          <div>主要用于抵扣采购云服务器费用 😔</div>
+          <div>主要用于抵扣采购云服务器及接口维护费用 😔</div>
         </div>
         <div class="faq-item">
           <h3>如何购买Key？</h3>
@@ -429,7 +435,7 @@ export default {
   mounted() {
     new ClipboardJS(".copy");
     this.api_key = localStorage.getItem("api_key") || "";
-    this.checkKey();
+    // this.checkKey();
   },
   methods: {
     goKf() {
@@ -499,6 +505,7 @@ export default {
       }
       if (this.api_key.length < 1) {
         this.$weui.alert("请填写Key后使用");
+        this.swichTab(5);
         return;
       }
       var that = this;
@@ -579,6 +586,7 @@ export default {
       var that = this;
       if (this.api_key.length < 1) {
         this.$weui.alert("请填写Key后使用");
+        this.swichTab(5);
         return;
       }
       if (that.write_title.length < 1) {
