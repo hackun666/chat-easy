@@ -1,29 +1,16 @@
 <template>
   <div class="qyai-page">
     <div id="page-header" class="">
-      <img
-        class="header-logo"
-        :src="require('@/assets/logo.svg')"
-        @click="resetAll"
-      />
+      <img class="header-logo" :src="require('@/assets/logo.svg')" @click="resetAll" />
       <div class="header-center">
         <div class="switch-button">
-          <div
-            :class="now_tab == 1 ? 'switch-active' : ''"
-            @click="swichTab(1)"
-          >
+          <div :class="now_tab == 1 ? 'switch-active' : ''" @click="swichTab(1)">
             问答
           </div>
-          <div
-            :class="now_tab == 2 ? 'switch-active' : ''"
-            @click="swichTab(2)"
-          >
+          <div :class="now_tab == 2 ? 'switch-active' : ''" @click="swichTab(2)">
             写作
           </div>
-          <div
-            :class="now_tab == 3 ? 'switch-active' : ''"
-            @click="swichTab(3)"
-          >
+          <div :class="now_tab == 3 ? 'switch-active' : ''" @click="swichTab(3)">
             绘画
             <span>New</span>
           </div>
@@ -60,18 +47,10 @@
                   <img :src="require('@/assets/openai.svg')" alt="" />
                 </div>
               </div>
-              <div
-                class="ask-text"
-                :id="'text-' + index"
-                v-html="item.html"
-              ></div>
+              <div class="ask-text" :id="'text-' + index" v-html="item.html"></div>
             </div>
             <div class="ask-operations" v-if="item.done">
-              <div
-                class="operations_item copy"
-                :data-clipboard-target="'#text-' + index"
-                title="复制文本"
-              >
+              <div class="operations_item copy" :data-clipboard-target="'#text-' + index" title="复制文本">
                 <img :src="require('@/assets/copy.svg')" />
                 <span>复制</span>
               </div>
@@ -88,12 +67,7 @@
             <h1>您可以这样提问</h1>
           </header>
           <div class="chat-examples">
-            <div
-              class="chat-example"
-              v-for="(item, index) in ask_demos"
-              :key="index"
-              @click="doAsk(item)"
-            >
+            <div class="chat-example" v-for="(item, index) in ask_demos" :key="index" @click="doAsk(item)">
               <div class="chat-exp-text">{{ item }}</div>
             </div>
           </div>
@@ -111,12 +85,7 @@
       <div class="chat-footer">
         <div class="chat-footer-bar">
           <div class="chat-left">
-            <textarea
-              class="chat-input"
-              v-model="prompt"
-              :placeholder="prompt_holder"
-              rows="1"
-            ></textarea>
+            <textarea class="chat-input" v-model="prompt" :placeholder="prompt_holder" rows="1"></textarea>
           </div>
           <div class="chat-right">
             <div class="chat-submit" @click="ask">
@@ -130,28 +99,15 @@
     <div class="write-wrapper" v-if="now_tab == 2">
       <div class="write-body">
         <div class="write-nav">
-          <div
-            class="write-tab"
-            :class="write_mode == 1 ? 'tab-active' : ''"
-            @click="write_mode = 1"
-          >
+          <div class="write-tab" :class="write_mode == 1 ? 'tab-active' : ''" @click="write_mode = 1">
             内容写作
           </div>
         </div>
         <div class="box-write">
           <div class="write-input-container">
-            <input
-              type="textarea"
-              v-model="write_title"
-              class="write-input"
-              placeholder="需要写点什么？请在此表达你的想法"
-            />
-            <div
-              placeholder="想要AI如何优化，表达您的想法（可选）"
-              class="write-input instruction-input"
-              contenteditable="plaintext-only"
-              v-if="write_mode == 2"
-            >
+            <input type="textarea" v-model="write_title" class="write-input" placeholder="需要写点什么？请在此表达你的想法" />
+            <div placeholder="想要AI如何优化，表达您的想法（可选）" class="write-input instruction-input" contenteditable="plaintext-only"
+              v-if="write_mode == 2">
               {{ edit_title }}
             </div>
             <div class="footer-submit">
@@ -164,11 +120,7 @@
           <div class="write-examples" v-if="write_result.length == 0">
             <div class="write-exp-title">示例：</div>
             <ul>
-              <li
-                v-for="item in write_demos"
-                @click="writeFrom(item)"
-                :key="item.id"
-              >
+              <li v-for="item in write_demos" @click="writeFrom(item)" :key="item.id">
                 {{ item }}
               </li>
             </ul>
@@ -180,24 +132,11 @@
         </div>
         <div class="box-result" v-if="write_result">
           <div class="write-input-container write-result">
-            <div
-              class="write-complete-text"
-              id="write-result"
-              v-html="write_result_html"
-            ></div>
+            <div class="write-complete-text" id="write-result" v-html="write_result_html"></div>
             <div class="ask-operations" v-if="write_done">
-              <a
-                class="operations_item copy"
-                data-clipboard-target="#write-result"
-                title="复制文本"
-              >
-                <img :src="require('@/assets/copy.svg')" /><span>复制</span></a
-              >
-              <div
-                title="删除"
-                class="operations_item"
-                @click="write_result = ''"
-              >
+              <a class="operations_item copy" data-clipboard-target="#write-result" title="复制文本">
+                <img :src="require('@/assets/copy.svg')" /><span>复制</span></a>
+              <div title="删除" class="operations_item" @click="write_result = ''">
                 <img :src="require('@/assets/trash.svg')" />
                 <span>删除</span>
               </div>
@@ -213,22 +152,14 @@
           <div class="draw-fields-container">
             <div>
               <div class="field-title">绘画提示</div>
-              <input
-                v-model="draw_title"
-                placeholder="描述绘画要求，越详细越好"
-                class="draw-input"
-                contenteditable="plaintext-only"
-              />
+              <input v-model="draw_title" placeholder="描述绘画要求，越详细越好" class="draw-input"
+                contenteditable="plaintext-only" />
             </div>
             <div>
               <div class="field-title">图片尺寸</div>
               <div class="size-select">
-                <div
-                  v-for="(item, index) in draw_sizes"
-                  :key="index"
-                  :class="draw_size == item ? 'size-active' : ''"
-                  @click="chooseSize(item)"
-                >
+                <div v-for="(item, index) in draw_sizes" :key="index" :class="draw_size == item ? 'size-active' : ''"
+                  @click="chooseSize(item)">
                   {{ item }}
                 </div>
               </div>
@@ -260,14 +191,7 @@
 
           <div class="draw-info">
             <button class="button" @click="draw_result = ''">返回</button>
-            <a
-              class="button download-btn"
-              :href="draw_result"
-              target="_blank"
-              download="draw.png"
-              rel="noreferrer"
-              >下载</a
-            >
+            <a class="button download-btn" :href="draw_result" target="_blank" download="draw.png" rel="noreferrer">下载</a>
           </div>
           <div class="draw-prompt">
             <div class="prompt-title">绘画提示</div>
@@ -280,18 +204,16 @@
     <div class="buy-wrapper" v-if="now_tab == 4">
       <h1 class="upgrade-title">购买Key</h1>
       <div class="buy-faqs">
-        <div class="faq-item">
+        <!-- <div class="faq-item">
           <h3>更新提示</h3>
           <div>
             目前本站已使用最新的GPT-4接口，欢迎体验。
           </div>
-        </div>
+        </div> -->
         <div class="faq-item">
           <h3>Key的价格？</h3>
           <div>
-            定价：10元/个，每个Key包含<span>200个</span>AI币 有效期为激活后<span
-              >2个月</span
-            >
+            定价：10元/个，每个Key包含<span>200个</span>AI币 有效期为激活后<span>2个月</span>
           </div>
         </div>
         <div class="faq-item">
@@ -310,9 +232,8 @@
           <div style="margin-bottom: 10px">
             <p>
               在线购买：付款后自动发货
-              <a href="https://shop.51fkba.com/links/02F3B2DE" target="_blank"
-                >👉<strong style="color: red">点击购买</strong></a
-              >
+              <a href="https://shop.51fkba.com/links/02F3B2DE" target="_blank">👉<strong
+                  style="color: red">点击购买</strong></a>
             </p>
           </div>
           <div>
@@ -331,12 +252,9 @@
         <div class="faq-item">
           <h3>私人定制服务</h3>
           <div>
-            可帮您搭建和本站一样的网站，也可以按需定制开发，有意向可以<a
-              style="color: #10a37f"
+            可帮您搭建和本站一样的网站，也可以按需定制开发，有意向可以<a style="color: #10a37f"
               href="https://chatbot.weixin.qq.com/webapp/dIYgk1431XFZISBOGaffnlvNSbcQQR?robotName=ChatGPT"
-              target="_blank"
-              ><b>联系客服</b></a
-            >
+              target="_blank"><b>联系客服</b></a>
             或加Q 290805404。(注：本站后端服务仅限PHP语言)
           </div>
         </div>
@@ -349,6 +267,7 @@
         <p class="now_key">
           当前Key: {{ api_key }}
           <span style="cursor: pointer" @click="removeKey">更换</span>
+          <br> 到期时间：{{ formatDate(key_info.term) }}
         </p>
         <div class="my-balance-container">
           <div class="my-balance">{{ key_info.num }}<span>AI币</span></div>
@@ -357,12 +276,7 @@
       <div class="my-packages-container" v-else>
         <h1>设置Key</h1>
         <div class="my-balance-container">
-          <input
-            type="text"
-            class="key_input"
-            v-model="api_key"
-            placeholder="输入您获取的Key"
-          />
+          <input type="text" class="key_input" v-model="api_key" placeholder="输入您获取的Key" />
           <div class="button upgrade-btn" @click="saveKey">
             <div class="upgrade-btn-text">保存</div>
           </div>
@@ -384,6 +298,7 @@ import ClipboardJS from "clipboard";
 import hljs from "highlight.js";
 import "highlight.js/styles/github.css";
 import MarkdownIt from "markdown-it";
+var moment = require("moment");
 export default {
   data() {
     return {
@@ -438,6 +353,9 @@ export default {
     // this.checkKey();
   },
   methods: {
+    formatDate(timestamp) {
+      return moment(timestamp * 1000).format("YYYY-MM-DD HH:mm");
+    },
     goKf() {
       window.open(
         "https://chatbot.weixin.qq.com/webapp/dIYgk1431XFZISBOGaffnlvNSbcQQR?robotName=ChatGPT"
@@ -482,7 +400,7 @@ export default {
           if (lang && hljs.getLanguage(lang)) {
             try {
               return hljs.highlight(lang, str).value;
-            } catch (__) {}
+            } catch (__) { }
           }
 
           return ""; // use external default escaping
@@ -701,6 +619,7 @@ export default {
   padding: 10px 20px;
   border-radius: 8px;
 }
+
 .now_key {
   margin-top: 20px;
   background-color: #f3fdfb;
@@ -710,12 +629,14 @@ export default {
   color: #10a37f;
   border-radius: 8px;
 }
+
 .qr_box {
   padding: 10px;
   margin: 20px auto;
   display: flex;
   justify-content: center;
   align-items: center;
+
   img {
     width: 240px;
     margin: 0 10px;
@@ -725,6 +646,7 @@ export default {
     border-radius: 8px;
   }
 }
+
 .show_qr {
   font-weight: bold;
   cursor: pointer;
@@ -738,9 +660,10 @@ export default {
     }
   }
 }
+
 .kf_ico {
   position: fixed;
-  bottom: 10vh;
+  bottom: 20vh;
   right: 10px;
   width: 60px;
   height: 60px;
@@ -754,6 +677,7 @@ export default {
   border-radius: 8px;
   z-index: 11;
   cursor: pointer;
+
   img {
     width: 30px;
     height: 30px;
