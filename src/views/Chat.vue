@@ -149,7 +149,7 @@
     <div class="draw-wrapper" v-if="now_tab == 3">
       <div class="draw-body">
         <div class="chat-about">
-          <p>更强更好用的AI绘图上线了，欢迎试用👉<a href="https://ai.sdxhxd.club/" target="_blank">点击进入</a></p>
+          <p>更强更好用的AI绘图上线了，欢迎试用👉<a href="https://ai.aihack.club/" target="_blank">点击进入</a></p>
         </div>
         <div v-if="!is_draw && draw_result.length == 0">
           <div class="draw-fields-container">
