@@ -7,9 +7,9 @@
           <div :class="now_tab == 1 ? 'switch-active' : ''" @click="swichTab(1)">
             问答
           </div>
-          <div :class="now_tab == 2 ? 'switch-active' : ''" @click="swichTab(2)">
+          <!-- <div :class="now_tab == 2 ? 'switch-active' : ''" @click="swichTab(2)">
             写作
-          </div>
+          </div> -->
           <div :class="now_tab == 3 ? 'switch-active' : ''" @click="swichTab(3)">
             绘画
             <span>New</span>
@@ -347,6 +347,7 @@ export default {
       api_key: "",
       key_info: null,
       show_qr: false,
+      alltext: "",
     };
   },
   computed: {},
@@ -451,23 +452,53 @@ export default {
         const url =
           "/app/openai/stream?q=" + that.prompt + "&api_key=" + that.api_key;
         that.prompt = "";
+
+
         const eventSource = new EventSource(url);
+
+
+
         eventSource.addEventListener("open", (event) => {
           console.log("连接已建立", JSON.stringify(event));
           that.pending = true;
           console.log(that.chat_list[that.chat_list.length - 1].message);
         });
 
+
+
+
         eventSource.addEventListener("message", (event) => {
+
+
           if (that.pending) {
             that.pending = false;
             that.chat_list[that.chat_list.length - 1].message = "";
           }
-          try {
-            var result = JSON.parse(event.data);
-            if (result.time && result.content) {
-              that.chat_list[that.chat_list.length - 1].message +=
-                result.content;
+
+
+
+          console.log('event:', event.data)
+          if (event.data == '[DONE]') {
+
+            that.chat_list[that.chat_list.length - 1].done = true;
+            console.log("连接已关闭", JSON.stringify(event.data));
+            eventSource.close();
+
+            that.chat_list[that.chat_list.length - 1].done = true;
+            console.log("连接已关闭", JSON.stringify(event.data));
+            eventSource.close();
+            console.log(new Date().getTime(), "answer end");
+            that.is_ask = false;
+
+
+          } else {
+            var json = eval("(" + event.data + ")");
+
+            console.log('json:', json)
+            if (json.choices[0].delta.content) {
+
+              var content = json.choices[0].delta.content.replace(/^\n+/, '')
+              that.chat_list[that.chat_list.length - 1].message += content;
               that.chat_list[that.chat_list.length - 1].html =
                 that.parseMarkdown(
                   that.chat_list[that.chat_list.length - 1].message
@@ -475,23 +506,15 @@ export default {
 
               document.getElementById("article-wrapper").scrollTop = 100000;
             }
-          } catch (error) {
-            console.log(error);
+
           }
+
         });
 
         eventSource.addEventListener("error", (event) => {
           console.error("发生错误：", JSON.stringify(event));
         });
 
-        eventSource.addEventListener("close", (event) => {
-          that.chat_list[that.chat_list.length - 1].done = true;
-          console.log("连接已关闭", JSON.stringify(event.data));
-          eventSource.close();
-          console.log(new Date().getTime(), "answer end");
-          that.is_ask = false;
-        });
-        that.checkKey();
       } else {
         this.$weui.alert(res.errmsg);
       }

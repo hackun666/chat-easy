@@ -9,7 +9,7 @@ module.exports = {
     proxy: {
       "/": {
         ws: false,
-        target: "http://chat.sdxhan.top/",
+        target: "http://chat.aihack.club/",
         changeOrigin: true,
       },
     },

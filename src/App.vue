@@ -448,7 +448,7 @@ body {
 }
 
 #page-header .header-center .switch-button {
-  width: 184px;
+  width: max-content;
 }
 
 #page-header .header-center .switch-button > div {
