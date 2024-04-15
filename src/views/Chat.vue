@@ -453,86 +453,86 @@ export default {
 
 
 
-         let res = await this.$http.post("/app/openai/ask", {
-          q: that.prompt,
-          api_key: that.api_key,
+        //  let res = await this.$http.post("/app/openai/ask", {
+        //   q: that.prompt,
+        //   api_key: that.api_key,
+        // });
+        // if (res) {
+        //   that.is_ask = false;
+        //   that.chat_list[that.chat_list.length - 1].html = that.parseMarkdown(res);
+        //   document.getElementById("article-wrapper").scrollTop = 100000;
+        // }
+
+
+
+
+
+
+        const url =
+          "/app/openai/stream?q=" + that.prompt + "&api_key=" + that.api_key;
+        that.prompt = "";
+
+
+        const eventSource = new EventSource(url);
+
+
+
+        eventSource.addEventListener("open", (event) => {
+          console.log("连接已建立", JSON.stringify(event));
+          that.pending = true;
+          console.log(that.chat_list[that.chat_list.length - 1].message);
         });
-        if (res) {
-          that.is_ask = false;
-          that.chat_list[that.chat_list.length - 1].html = that.parseMarkdown(res);
-          document.getElementById("article-wrapper").scrollTop = 100000;
-        }
 
 
 
 
+        eventSource.addEventListener("message", (event) => {
 
 
-        // const url =
-        //   "/app/openai/stream?q=" + that.prompt + "&api_key=" + that.api_key;
-        // that.prompt = "";
-
-
-        // const eventSource = new EventSource(url);
-
-
-
-        // eventSource.addEventListener("open", (event) => {
-        //   console.log("连接已建立", JSON.stringify(event));
-        //   that.pending = true;
-        //   console.log(that.chat_list[that.chat_list.length - 1].message);
-        // });
+          if (that.pending) {
+            that.pending = false;
+            that.chat_list[that.chat_list.length - 1].message = "";
+          }
 
 
 
+          console.log('event:', event.data)
+          if (event.data == '[DONE]') {
 
-        // eventSource.addEventListener("message", (event) => {
+            that.chat_list[that.chat_list.length - 1].done = true;
+            console.log("连接已关闭", JSON.stringify(event.data));
+            eventSource.close();
 
-
-        //   if (that.pending) {
-        //     that.pending = false;
-        //     that.chat_list[that.chat_list.length - 1].message = "";
-        //   }
-
-
-
-        //   console.log('event:', event.data)
-        //   if (event.data == '[DONE]') {
-
-        //     that.chat_list[that.chat_list.length - 1].done = true;
-        //     console.log("连接已关闭", JSON.stringify(event.data));
-        //     eventSource.close();
-
-        //     that.chat_list[that.chat_list.length - 1].done = true;
-        //     console.log("连接已关闭", JSON.stringify(event.data));
-        //     eventSource.close();
-        //     console.log(new Date().getTime(), "answer end");
-        //     that.is_ask = false;
+            that.chat_list[that.chat_list.length - 1].done = true;
+            console.log("连接已关闭", JSON.stringify(event.data));
+            eventSource.close();
+            console.log(new Date().getTime(), "answer end");
+            that.is_ask = false;
 
 
-        //   } else {
-        //     var json = eval("(" + event.data + ")");
+          } else {
+            var json = eval("(" + event.data + ")");
 
-        //     console.log('json:', json)
-        //     if (json.choices[0].delta.content) {
+            console.log('json:', json)
+            if (json.choices[0].delta.content) {
 
-        //       var content = json.choices[0].delta.content.replace(/^\n+/, '')
-        //       that.chat_list[that.chat_list.length - 1].message += content;
-        //       that.chat_list[that.chat_list.length - 1].html =
-        //         that.parseMarkdown(
-        //           that.chat_list[that.chat_list.length - 1].message
-        //         );
+              var content = json.choices[0].delta.content.replace(/^\n+/, '')
+              that.chat_list[that.chat_list.length - 1].message += content;
+              that.chat_list[that.chat_list.length - 1].html =
+                that.parseMarkdown(
+                  that.chat_list[that.chat_list.length - 1].message
+                );
 
-        //       document.getElementById("article-wrapper").scrollTop = 100000;
-        //     }
+              document.getElementById("article-wrapper").scrollTop = 100000;
+            }
 
-        //   }
+          }
 
-        // });
+        });
 
-        // eventSource.addEventListener("error", (event) => {
-        //   console.error("发生错误：", JSON.stringify(event));
-        // });
+        eventSource.addEventListener("error", (event) => {
+          console.error("发生错误：", JSON.stringify(event));
+        });
 
       } else {
         this.$weui.alert(res.errmsg);

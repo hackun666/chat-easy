@@ -13,5 +13,6 @@ module.exports = {
         changeOrigin: true,
       },
     },
+    compress: false,
   },
 };
